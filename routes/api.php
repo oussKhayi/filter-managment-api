@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('filters',[FilterController::class, 'index']);
 Route::get('filters/{id}',[FilterController::class, 'show']);
 Route::post('insert', [FilterController::class, 'store']);
+Route::put('filters/{id}/update', [FilterController::class, 'update']);
