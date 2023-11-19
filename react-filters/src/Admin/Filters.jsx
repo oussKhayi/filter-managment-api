@@ -22,11 +22,11 @@ const Filters = () => {
         }
     }, []);
     return (
-        <div className="bg-gray-300 h-screen p-5">
+        <div className="bg-gray-300 p-5">
             <h1 className="text-gray-700 text-5xl font-bold p-2 text-center">
                 Filters managment
             </h1>
-            {/* <img width={110} src={filters[0].images[0]} alt="" /> */}
+            {/* <img width={110}  src={filters[0].images[0]} alt="" /> */}
             <div className="table w-full p-2 rounded">
                 <table className="w-full border rounded bg-purple-300 p-20">
                     <thead>
@@ -168,8 +168,8 @@ const Filters = () => {
                                     <td className="p-2 border-r">
                                         {filter.local_code}
                                     </td>
-                                    <td className="p-2 border-r">
-                                        {filter.type.toUpperCase()}
+                                    <td className="p-2 border-r uppercase">
+                                        {filter.type}
                                     </td>
                                     <td>
                                         <a

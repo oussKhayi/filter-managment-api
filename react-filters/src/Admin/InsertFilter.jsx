@@ -2,6 +2,12 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiPlusCircle, BiTrash } from "react-icons/bi";
+import {
+    FiCheck,
+    FiChevronRight,
+    FiChevronsRight,
+    FiSave,
+} from "react-icons/fi";
 
 const InsertFilter = () => {
     const API = "http://localhost:8000/api";
@@ -183,47 +189,74 @@ const InsertFilter = () => {
     };
 
     // Handle change images
-    const handleImageChange = (e) => {
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             // The result property contains the base64-encoded string
+    //             var base64String = reader.result;
+
+    //         };
+
+    //         // Read the file as a data URL
+    //         reader.readAsDataURL(file);
+    //     }
+    //     console.log(base64Image);
+    // };
+    // useEffect(() => {
+    //     if (base64Image) setImages((prev) => [...prev, base64Image]);
+    // }, [base64Image]);
+
+    // Handle change images
+    const handleImageChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
+            const base64String = await readAsDataURL(file);
+            console.log(base64String);
+            setImages((prev) => [...prev, base64String]);
+        }
+    };
 
+    const readAsDataURL = (file) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
             reader.onloadend = () => {
-                // The result property contains the base64-encoded string
-                const base64String = reader.result;
-                setBase64Image(base64String);
+                // Resolve with the base64-encoded string
+                resolve(reader.result);
             };
 
             // Read the file as a data URL
             reader.readAsDataURL(file);
-        }
-        console.log(base64Image);
+        });
     };
-    useEffect(() => {
-        if (base64Image) setImages((prev) => [...prev, base64Image]);
-    }, [base64Image]);
+
     const handleRemoveImg = (img64) => {
         const tmpImages = images.filter((img) => img !== img64);
         setImages(tmpImages);
     };
 
     return (
-        <div className="bg-gray-100 h-full p-5">
-            <h1 className="text-gray-700 text-5xl font-bold p-2 text-center uppercase">
+        <div className="bg-gray-100 container mx-auto p-4">
+            {/* <h1 className="text-gray-700 bg-yellow-300 rounded-lg text-3xl font-bold p-2 text-center uppercase">
                 Insert a Filters
+            </h1> */}
+            <h1 className="text-4xl font-extrabold text-green-500 mb-6 text-center">
+                Insert a new Filter
             </h1>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                {/* <button
-                    type="submit"
-                    className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded m-3"
-                >
-                    insert
-                </button> */}
-                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                    <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0">
+
+            <form
+                onSubmit={(e) => handleSubmit(e)}
+                className="border-2 border-green-500 rounded-md"
+            >
+                <div className="md:flex sm:flex rounded shadow p-3 flex flex-col">
+                    <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0 flex items-center">
+                        <FiChevronsRight />
                         The filter Codes :
                     </h1>
-                    <div className="-mx-3 md:flex sm:flex rounded shadow p-3">
+                    <div className="-mx-3 md:flex sm:flex p-3">
+                        {/* ... (unchanged code) */}
+
                         <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
                             <label
                                 className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -280,65 +313,63 @@ const InsertFilter = () => {
                             />
                         </div>
                     </div>
+
                     <br />
-                    <hr />
-                    <br />
-                    {otherCompanyCodes.map((cmp, i) => {
-                        return (
-                            <div
-                                className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded"
-                                key={i}
-                            >
-                                <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                        htmlFor={`company-name-${i}`}
-                                    >
-                                        Company Name
-                                    </label>
-                                    <input
-                                        disabled
-                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                                        id={`company-name-${i}`}
-                                        type="text"
-                                        value={cmp.name}
-                                    />
-                                    <p className="text-red text-xs italic">
-                                        Please fill out this field.
-                                    </p>
-                                </div>
-                                <div className="md:w-1/2 px-3 sm:w-1/2">
-                                    <label
-                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                        htmlFor={`company-code-${i}`}
-                                    >
-                                        Company Code
-                                    </label>
-                                    <input
-                                        disabled
-                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                                        id={`company-code-${i}`}
-                                        type="text"
-                                        value={cmp.code}
-                                    />
-                                </div>
-                                <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
-                                    <button
-                                        type="button"
-                                        className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
-                                        onClick={() =>
-                                            handleRemoveCompany(cmp.name)
-                                        }
-                                    >
-                                        <BiTrash />
-                                    </button>
-                                </div>
+                    {otherCompanyCodes.map((cmp, i) => (
+                        <div
+                            className="md:flex sm:flex mb-6 p-3  rounded"
+                            key={i}
+                        >
+                            {/* ... (unchanged code) */}
+                            <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
+                                <label
+                                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                    htmlFor={`company-name-${i}`}
+                                >
+                                    Company Name
+                                </label>
+                                <input
+                                    disabled
+                                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                    id={`company-name-${i}`}
+                                    type="text"
+                                    value={cmp.name}
+                                />
+                                <p className="text-red text-xs italic">
+                                    Please fill out this field.
+                                </p>
                             </div>
-                        );
-                    })}
-                    {/* <br /> */}
-                    {/* <hr /> */}
-                    <div className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded">
+                            <div className="md:w-1/2 px-3 sm:w-1/2">
+                                <label
+                                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                    htmlFor={`company-code-${i}`}
+                                >
+                                    Company Code
+                                </label>
+                                <input
+                                    disabled
+                                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                                    id={`company-code-${i}`}
+                                    type="text"
+                                    value={cmp.code}
+                                />
+                            </div>
+                            <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
+                                <button
+                                    type="button"
+                                    className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
+                                    onClick={() =>
+                                        handleRemoveCompany(cmp.name)
+                                    }
+                                >
+                                    <BiTrash />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="md:flex sm:flex mb-6 p-3  rounded">
+                        {/* ... (unchanged code) */}
+
                         <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
                             <label
                                 className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -392,88 +423,83 @@ const InsertFilter = () => {
                     </div>
                     <hr />
                     <br />
-                    {/* <br /> */}
-                    {/* <hr /> */}
-                    {/* <br /> */}
-                    {/* <hr /> */}
-                    {/* <br /> */}
-                    {/* <hr /> */}
                     <div className="p-2 bg-gray-100">
-                        <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0">
+                        <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0 flex items-center">
+                            <FiChevronsRight />
                             supported Cars informations :
                         </h1>
-                        {supportedCars.map((car, i) => {
-                            return (
-                                <div
-                                    className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded"
-                                    key={i}
-                                >
-                                    <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
-                                        <label
-                                            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                            htmlFor={`car-brand-${i}`}
-                                        >
-                                            car brand
-                                        </label>
-                                        <input
-                                            disabled
-                                            className="appearance-none capitalize block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                                            id={`car-brand-${i}`}
-                                            type="text"
-                                            name="carBrand"
-                                            value={car.brand}
-                                        />
-                                        <p className="text-red text-xs italic">
-                                            Please fill out this field.
-                                        </p>
-                                    </div>
-                                    <div className="md:w-1/2 px-3 sm:w-1/2">
-                                        <label
-                                            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                            htmlFor={`car-model-${i}`}
-                                        >
-                                            car model
-                                        </label>
-                                        <input
-                                            disabled
-                                            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 uppercase"
-                                            id={`car-model-${i}`}
-                                            type="text"
-                                            value={car.model}
-                                        />
-                                    </div>
-                                    <div className="md:w-1/2 px-3 sm:w-1/2">
-                                        <label
-                                            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                            htmlFor={`car-year-${i}`}
-                                        >
-                                            car year
-                                        </label>
-                                        <input
-                                            disabled
-                                            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 uppercase"
-                                            id={`car-year-${i}`}
-                                            type="text"
-                                            value={car.year}
-                                            name="carYear"
-                                        />
-                                    </div>
-                                    <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
-                                        <button
-                                            type="button"
-                                            className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
-                                            onClick={() =>
-                                                handleRemoveSupportedCar(car)
-                                            }
-                                        >
-                                            <BiTrash />
-                                        </button>
-                                    </div>
+                        {supportedCars.map((car, i) => (
+                            <div
+                                className="md:flex sm:flex mb-6 p-3  rounded"
+                                key={i}
+                            >
+                                {/* ... (unchanged code) */}
+                                <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
+                                    <label
+                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        htmlFor={`car-brand-${i}`}
+                                    >
+                                        car brand
+                                    </label>
+                                    <input
+                                        disabled
+                                        className="appearance-none capitalize block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                        id={`car-brand-${i}`}
+                                        type="text"
+                                        name="carBrand"
+                                        value={car.brand}
+                                    />
+                                    <p className="text-red text-xs italic">
+                                        Please fill out this field.
+                                    </p>
                                 </div>
-                            );
-                        })}
+                                <div className="md:w-1/2 px-3 sm:w-1/2">
+                                    <label
+                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        htmlFor={`car-model-${i}`}
+                                    >
+                                        car model
+                                    </label>
+                                    <input
+                                        disabled
+                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 uppercase"
+                                        id={`car-model-${i}`}
+                                        type="text"
+                                        value={car.model}
+                                    />
+                                </div>
+                                <div className="md:w-1/2 px-3 sm:w-1/2">
+                                    <label
+                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                        htmlFor={`car-year-${i}`}
+                                    >
+                                        car year
+                                    </label>
+                                    <input
+                                        disabled
+                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 uppercase"
+                                        id={`car-year-${i}`}
+                                        type="text"
+                                        value={car.year}
+                                        name="carYear"
+                                    />
+                                </div>
+                                <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
+                                    <button
+                                        type="button"
+                                        className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
+                                        onClick={() =>
+                                            handleRemoveSupportedCar(car)
+                                        }
+                                    >
+                                        <BiTrash />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                        <div className="md:flex sm:flex mb-6 p-3  rounded">
+                            {/* ... (unchanged code) */}
 
-                        <div className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded">
                             <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -551,14 +577,15 @@ const InsertFilter = () => {
                             </div>
                         </div>
                     </div>
+                    <hr />
                     <br />
-                    <hr />
-                    <hr />
-
-                    <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0">
+                    <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0 flex items-center">
+                        <FiChevronsRight />
                         Filter Form & dimensions :
                     </h1>
-                    <div className="-mx-3 md:flex mb-6">
+                    <div className="md:flex mb-6">
+                        {/* ... (unchanged code) */}
+
                         <div className="md:w-full px-3">
                             <label
                                 className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -583,61 +610,61 @@ const InsertFilter = () => {
                             </p>
                         </div>
                     </div>
-                    {dimensions.map((dm, i) => {
-                        return (
-                            <div
-                                className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded"
-                                key={i}
-                            >
-                                <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label
-                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                        htmlFor={`dimension-char-${i}`}
-                                    >
-                                        Dimensions Char
-                                    </label>
-                                    <input
-                                        disabled
-                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                                        id={`dimension-char-${i}`}
-                                        type="text"
-                                        value={dm.name}
-                                    />
-                                    <p className="text-red text-xs italic">
-                                        Please fill out this field.
-                                    </p>
-                                </div>
-                                <div className="md:w-1/2 px-3 sm:w-1/2">
-                                    <label
-                                        className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                                        htmlFor={`dimension-value-${i}`}
-                                    >
-                                        Dimension Value
-                                    </label>
-                                    <input
-                                        disabled
-                                        className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 uppercase"
-                                        id={`dimension-value-${i}`}
-                                        type="text"
-                                        value={dm.value}
-                                    />
-                                </div>
-                                <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
-                                    <button
-                                        type="button"
-                                        className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
-                                        onClick={() =>
-                                            handleRemoveDimensions(dm.name)
-                                        }
-                                    >
-                                        <BiTrash />
-                                    </button>
-                                </div>
+                    {dimensions.map((dm, i) => (
+                        <div
+                            className="md:flex sm:flex mb-6 p-3  rounded"
+                            key={i}
+                        >
+                            {/* ... (unchanged code) */}
+                            <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
+                                <label
+                                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                    htmlFor={`dimension-char-${i}`}
+                                >
+                                    Dimensions Char
+                                </label>
+                                <input
+                                    disabled
+                                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                    id={`dimension-char-${i}`}
+                                    type="text"
+                                    value={dm.name}
+                                />
+                                <p className="text-red text-xs italic">
+                                    Please fill out this field.
+                                </p>
                             </div>
-                        );
-                    })}
+                            <div className="md:w-1/2 px-3 sm:w-1/2">
+                                <label
+                                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                                    htmlFor={`dimension-value-${i}`}
+                                >
+                                    Dimension Value
+                                </label>
+                                <input
+                                    disabled
+                                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-green-500 rounded py-3 px-4 uppercase"
+                                    id={`dimension-value-${i}`}
+                                    type="text"
+                                    value={dm.value}
+                                />
+                            </div>
+                            <div className="md:w-1/12 px-3 sm:w-1/4 mt-7">
+                                <button
+                                    type="button"
+                                    className="rounded py-2 px-2 bg-red-500 hover:bg-red-600 text-white text-2xl"
+                                    onClick={() =>
+                                        handleRemoveDimensions(dm.name)
+                                    }
+                                >
+                                    <BiTrash />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="md:flex sm:flex mb-6 p-3  rounded">
+                        {/* ... (unchanged code) */}
 
-                    <div className="-mx-3 md:flex sm:flex mb-6 p-3 shadow border rounded">
                         <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
                             <label
                                 className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
@@ -646,12 +673,13 @@ const InsertFilter = () => {
                                 new Dimension Char
                             </label>
                             <input
-                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3 uppercase"
                                 id="new-dimension-char"
                                 type="text"
                                 placeholder="ex: H"
                                 value={newDimensionName}
                                 required
+                                maxLength={1}
                                 onChange={(e) =>
                                     setNewDimensionName(e.target.value)
                                 }
@@ -689,15 +717,13 @@ const InsertFilter = () => {
                             </button>
                         </div>
                     </div>
-
-                    <br />
-                    <hr />
-                    <hr />
-                    <br />
-
+                    <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0 flex items-center">
+                        <FiChevronsRight /> Filter Images :
+                    </h1>
                     <div className="mb-3">
+                        {/* ... (unchanged code) */}
                         <input
-                            className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                            className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
                             type="file"
                             id="formFileMultiple"
                             onChange={handleImageChange}
@@ -707,89 +733,49 @@ const InsertFilter = () => {
                             Select an image from your device..
                         </p>
                     </div>
-                    <hr />
-                    <div className="-mx-2 flex xs-flex sm:flex flex-wrap mb-6 bg-gray-100 shadow border rounded p-2 justify-evenly">
-                        {images.map((img64, index) => {
-                            return (
-                                <div
-                                    key={index}
-                                    className="max-w-fit w-fit relative bg-red-200 mt-2"
-                                >
-                                    <button
-                                        type="button"
-                                        className="p-1 bg-red-500 hover:bg-red-600 font-bold text-white text-xl absolute rounded-full right-1 top-1"
-                                        onClick={(e) => handleRemoveImg(img64)}
+                    {Array.isArray(images) ? (
+                        images.length >= 1 && (
+                            <div className="-mx-2 flex xs-flex sm:flex flex-wrap mb-6 bg-gray-100  rounded p-2 justify-evenly">
+                                {images.map((img64, index) => (
+                                    <div
+                                        key={index}
+                                        className="max-w-fit w-fit relative bg-red-200 mt-2"
                                     >
-                                        <BiTrash />
-                                    </button>
-                                    <img
-                                        className="rounded shadow max-w-full h-28"
-                                        src={img64}
-                                        alt=""
-                                    />
-                                </div>
-                            );
-                        })}
-
-                        {/* Repeat similar code for other image divs */}
+                                        {/* ... (unchanged code) */}
+                                        <button
+                                            type="button"
+                                            className="p-1 bg-red-500 hover:bg-red-600 font-bold text-white text-xl absolute rounded-full right-1 top-1"
+                                            onClick={(e) =>
+                                                handleRemoveImg(img64)
+                                            }
+                                        >
+                                            <BiTrash />
+                                        </button>
+                                        <img
+                                            className="rounded shadow max-w-full h-28"
+                                            src={img64}
+                                            alt=""
+                                        />
+                                    </div>
+                                ))}
+                                {/* Repeat similar code for other image divs */}
+                            </div>
+                        )
+                    ) : (
+                        <></>
+                    )}
+                    <div className="flex justify-center">
+                        <button
+                            type="submit"
+                            className="bg-green-500 text-white max-w-full xs:w-full w-1/3 mx-3 p-3 rounded font-bold flex items-center justify-center text-xl"
+                        >
+                            submit <FiSave className="ms-2 font-bold" />
+                        </button>
                     </div>
-
-                    <hr />
                 </div>
-                <button
-                    type="submit"
-                    className="bg-green-500 text-white w-full mx-3 p-4 rounded font-bold"
-                >
-                    submit
-                </button>
             </form>
         </div>
     );
 };
 
 export default InsertFilter;
-
-{
-    /* Map here */
-}
-{
-    /* <div className="-mx-3 md:flex sm:flex rounded">
-            <div className="md:w-1/2 sm:w-1/2 px-3 mb-6 md:mb-0">
-                <label
-                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                    htmlFor="grid-first-name"
-                >
-                    Company Name
-                </label>
-                <input
-                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                    id="grid-first-name"
-                    type="text"
-                    value="Filter-H"
-                    disabled
-                />
-                <p className="text-red text-xs italic">
-                    Please fill out this field.
-                </p>
-            </div>
-            <div className="md:w-1/2 px-3 sm:w-1/2">
-                <label
-                    className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                    htmlFor="grid-last-name"
-                >
-                    Company Code
-                </label>
-                <input
-                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                    id="grid-last-name"
-                    type="text"
-                    placeholder="D123"
-                />
-            </div>
-            <div className="md:w-1/12 px-3 sm:w-1/4 relative">
-                <button className="rounded py-3 px-2 bg-red-500 bottom-7 absolute">
-                    Delete
-                </button>
-            </div>
-        </div> */
-}
