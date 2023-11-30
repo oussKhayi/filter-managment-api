@@ -271,7 +271,7 @@ const InsertFilter = () => {
                                 value={globalCode}
                                 onChange={(e) => setGlobalCode(e.target.value)}
                                 placeholder="Global123"
-                                required
+                                // required
                             />
                             <p className="text-red text-xs italic">
                                 Please fill out this field.
@@ -309,7 +309,7 @@ const InsertFilter = () => {
                                 placeholder="D123"
                                 value={localCode}
                                 onChange={(e) => setLocalCode(e.target.value)}
-                                required
+                                // required
                             />
                         </div>
                     </div>
@@ -386,7 +386,7 @@ const InsertFilter = () => {
                                 onChange={(e) =>
                                     setNewCompanyName(e.target.value)
                                 }
-                                required
+                                // required
                             />
                             <p className="text-red text-xs italic">
                                 Please fill out this field.
@@ -408,7 +408,7 @@ const InsertFilter = () => {
                                 onChange={(e) =>
                                     setNewCompanyCode(e.target.value)
                                 }
-                                required
+                                // required
                             />
                         </div>
                         <div className="md:w-1/12 px-3 sm:w-1/4 pt-6 text-center w-full">
@@ -517,7 +517,7 @@ const InsertFilter = () => {
                                     onChange={(e) =>
                                         setCarBrand(e.target.value)
                                     }
-                                    required
+                                    // required
                                 />
                                 <p className="text-red text-xs italic">
                                     Please fill out this field.
@@ -540,7 +540,7 @@ const InsertFilter = () => {
                                     onChange={(e) =>
                                         setCarModel(e.target.value)
                                     }
-                                    required
+                                    // required
                                 />
                                 <p className="text-red text-xs italic">
                                     Please fill out this field.
@@ -562,7 +562,7 @@ const InsertFilter = () => {
                                     max={new Date().getFullYear() + 1}
                                     placeholder="ex: 2022"
                                     value={carYear}
-                                    required
+                                    // required
                                     onChange={(e) => setCarYear(e.target.value)}
                                 />
                             </div>
@@ -595,7 +595,7 @@ const InsertFilter = () => {
                             </label>
                             <select
                                 id="filter-form"
-                                required
+                                // required
                                 onChange={(e) =>
                                     setDimensionForm(e.target.value)
                                 }
@@ -678,7 +678,7 @@ const InsertFilter = () => {
                                 type="text"
                                 placeholder="ex: H"
                                 value={newDimensionName}
-                                required
+                                // required
                                 maxLength={1}
                                 onChange={(e) =>
                                     setNewDimensionName(e.target.value)
@@ -701,7 +701,7 @@ const InsertFilter = () => {
                                 type="text"
                                 placeholder="ex: 13mm"
                                 value={newDimensionValue}
-                                required
+                                // required
                                 onChange={(e) =>
                                     setNewDimensionValue(e.target.value)
                                 }
@@ -727,7 +727,7 @@ const InsertFilter = () => {
                             type="file"
                             id="formFileMultiple"
                             onChange={handleImageChange}
-                            required
+                            // required
                         />
                         <p className="text-red text-xs italic">
                             Select an image from your device..

@@ -131,8 +131,10 @@ const Filters = () => {
                             </th>
                         </tr>
                     </thead>
+                    
                     <tbody>
-                        <tr className="bg-gray-50 text-center">
+                        
+                        {/* <tr className="bg-gray-50 text-center">
                             <td className="p-2 border-r"></td>
                             <td className="p-2 border-r">
                                 <input type="text" className="border p-1" />
@@ -149,8 +151,23 @@ const Filters = () => {
                             <td className="p-2">
                                 <input type="text" className="border p-1" />
                             </td>
-                        </tr>
-                        {filters.map((filter) => {
+                        </tr> */}
+                        {filters.length<=0?<tr>
+                            <td colSpan={6}>
+                            <div id="loading-basic-example" className="h-auto w-full p-24 flex justify-center">
+                        <div
+                          data-te-loading-management-init
+                          data-te-parent-selector="#loading-basic-example"
+                          >
+                          <div
+                            data-te-loading-icon-ref
+                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"></div>
+                          <span data-te-loading-text-ref>Loading...</span>
+                        </div>
+                      </div>
+                            </td>
+                        </tr>:filters.map((filter) => {
                             return (
                                 <tr
                                     className="bg-gray-100 text-center border-b text-sm text-gray-600"
