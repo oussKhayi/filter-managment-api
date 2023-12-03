@@ -18,9 +18,15 @@ class FilterController extends Controller
     }
     public function show($id){
         $filter = Filter::find($id);
-        return response()->json([
-            'filter'=>$filter
-        ],200);
+        if(is_null($filter)){
+            return response()->json([
+                'message'=>"Filter doesn't exist!"
+            ],404);
+        }else{
+            return response()->json([
+                'filter'=>$filter
+            ],200);
+        }
     }
 
 
