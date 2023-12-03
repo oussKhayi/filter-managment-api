@@ -64,7 +64,7 @@ const InsertFilter = () => {
             images,
             other_company_codes: otherCompanyCodes,
             supported_cars: supportedCars,
-            type: type,
+            type: "x type",
         };
 
         // Perform form submission logic here, e.g., send data to the server
@@ -270,7 +270,7 @@ const InsertFilter = () => {
                                 type="text"
                                 value={globalCode}
                                 onChange={(e) => setGlobalCode(e.target.value)}
-                                placeholder="Global123"
+                                placeholder="0123456789"
                                 // required
                             />
                             <p className="text-red text-xs italic">
@@ -306,7 +306,7 @@ const InsertFilter = () => {
                                 className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
                                 id="local-company-code"
                                 type="text"
-                                placeholder="D123"
+                                placeholder="OE 123/4"
                                 value={localCode}
                                 onChange={(e) => setLocalCode(e.target.value)}
                                 // required

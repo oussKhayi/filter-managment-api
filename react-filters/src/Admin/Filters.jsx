@@ -131,9 +131,8 @@ const Filters = () => {
                             </th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
-                        
                         {/* <tr className="bg-gray-50 text-center">
                             <td className="p-2 border-r"></td>
                             <td className="p-2 border-r">
@@ -152,66 +151,79 @@ const Filters = () => {
                                 <input type="text" className="border p-1" />
                             </td>
                         </tr> */}
-                        {filters.length<=0?<tr>
-                            <td colSpan={6}>
-                            <div id="loading-basic-example" className="h-auto w-full p-24 flex justify-center">
-                        <div
-                          data-te-loading-management-init
-                          data-te-parent-selector="#loading-basic-example"
-                          >
-                          <div
-                            data-te-loading-icon-ref
-                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                            role="status"></div>
-                          <span data-te-loading-text-ref>Loading...</span>
-                        </div>
-                      </div>
-                            </td>
-                        </tr>:filters.map((filter) => {
-                            return (
-                                <tr
-                                    className="bg-gray-100 text-center border-b text-sm text-gray-600"
-                                    key={filter.id}
-                                >
-                                    <td className="p-2 border-r">
-                                        <input type="checkbox" />
-                                    </td>
-                                    <td className="p-2 border-r">
-                                        {filter.id}
-                                    </td>
-                                    <td className="p-2 border-r">
-                                        {filter.global_code}
-                                    </td>
-                                    <td className="p-2 border-r">
-                                        {filter.local_code}
-                                    </td>
-                                    <td className="p-2 border-r uppercase">
-                                        {filter.type}
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="#"
-                                            className="bg-yellow-400 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
+                        {filters.length <= 0 ? (
+                            <tr>
+                                <td colSpan={6}>
+                                    <div
+                                        id="loading-basic-example"
+                                        className="h-auto w-full p-24 flex justify-center"
+                                    >
+                                        <div
+                                            data-te-loading-management-init
+                                            data-te-parent-selector="#loading-basic-example"
                                         >
-                                            View
-                                        </a>
-                                        <button type="button"
-                                            // href="#"
-                                            onClick={() => setUpdateFl(filter)}
-                                            className="bg-blue-500 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
-                                        >
-                                            Edit
-                                        </button>
-                                        <a
-                                            href="#"
-                                            className="bg-red-500 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
-                                        >
-                                            Remove
-                                        </a>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                            <div
+                                                data-te-loading-icon-ref
+                                                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                                role="status"
+                                            ></div>
+                                            <span data-te-loading-text-ref>
+                                                Loading...
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        ) : (
+                            filters.map((filter) => {
+                                return (
+                                    <tr
+                                        className="bg-gray-100 text-center border-b text-sm text-gray-600"
+                                        key={filter.id}
+                                    >
+                                        <td className="p-2 border-r">
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className="p-2 border-r">
+                                            {filter.id}
+                                        </td>
+                                        <td className="p-2 border-r">
+                                            {filter.global_code}
+                                        </td>
+                                        <td className="p-2 border-r">
+                                            {filter.local_code}
+                                        </td>
+                                        <td className="p-2 border-r uppercase">
+                                            {filter.type}
+                                        </td>
+                                        <td>
+                                            <a
+                                                href="#"
+                                                className="bg-yellow-400 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
+                                            >
+                                                View
+                                            </a>
+                                            <button
+                                                type="button"
+                                                // href="#"
+                                                onClick={() =>
+                                                    setUpdateFl(filter)
+                                                }
+                                                className="bg-blue-500 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
+                                            >
+                                                Edit
+                                            </button>
+                                            <a
+                                                href="#"
+                                                className="bg-red-500 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
+                                            >
+                                                Remove
+                                            </a>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        )}
                     </tbody>
                 </table>
             </div>

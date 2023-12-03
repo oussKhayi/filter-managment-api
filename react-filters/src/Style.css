@@ -1,0 +1,16 @@
+.mainImg {
+    -webkit-filter: drop-shadow(5px 5px 5px #000);
+    filter: drop-shadow(5px 5px 50px rgb(14, 165, 233));
+    user-select: none;
+    -webkit-user-drag: none;
+    animation: 1s mainImg alternate infinite;
+}
+
+@keyframes mainImg {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(5%);
+    }
+}

@@ -9,8 +9,11 @@
     display: none !important;
   }
   .bg-hero {
-    background-image: url('path/to/your/image.jpg'); /* Replace with the actual path to your image */
+    background-image: url('https://filtron.eu/website/images/filters/thumbnails/oe649-4.jpg'); /* Replace with the actual path to your image */
     background-size: cover;
     background-position: center;
+  }
+  .main-section{
+    background-color: red !important;
   }
 }

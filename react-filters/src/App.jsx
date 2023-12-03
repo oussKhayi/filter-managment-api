@@ -8,6 +8,10 @@ import NavbarComponent from "./assets/NavbarComponent";
 import PageNotFound from "./assets/PageNotFound";
 import HomePage from "./components/HomePage";
 import ImageUploader from "./ImageUploader";
+import FindFilter from "./components/searsh/FindFilter";
+
+import ProductSearch from "./components/searsh/ProductSearch";
+import Filter from "./components/Filter";
 
 const App = () => {
     return (
@@ -18,9 +22,12 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="manage" element={<Filters />} />
+                        {/* <Route path="search" element={<ProductSearch />} /> */}
                         <Route path="insert" element={<InsertFilter />} />
                         <Route path="image" element={<ImageUploader />} />
                         <Route path="*" element={<PageNotFound />} />
+                        <Route path="filter/:productId" element={<Filter />} />
+                        <Route path="search" element={<FindFilter />} />
                     </Routes>
                 </BrowserRouter>
             </div>
