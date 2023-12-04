@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import React from "react";
 import Update from "../Update";
+import { Link } from "react-router-dom";
 
 const Filters = () => {
     const API = "http://localhost:8000/api";
@@ -22,13 +23,13 @@ const Filters = () => {
         }
     }, []);
     return (
-        <div className="bg-gray-300 p-5">
-            <h1 className="text-gray-700 text-5xl font-bold p-2 text-center">
-                Filters managment
+        <div className="container mx-auto p-5">
+            <h1 className="text-gray-800 text-5xl font-bold p-2 text-center">
+                Admin Dashboard
             </h1>
             {/* <img width={110}  src={filters[0].images[0]} alt="" /> */}
             <div className="table w-full p-2 rounded">
-                <table className="w-full border rounded bg-purple-300 p-20">
+                <table className="w-full border rounded  p-20">
                     <thead>
                         <tr className="bg-gray-50 border-b">
                             <th className="border-r p-2">
@@ -37,120 +38,32 @@ const Filters = () => {
                             <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                                 <div className="flex items-center justify-center">
                                     ID
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                        />
-                                    </svg>
                                 </div>
                             </th>
                             <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                                 <div className="flex items-center justify-center">
-                                    Global code
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                        />
-                                    </svg>
+                                    EAN CODE
                                 </div>
                             </th>
                             <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                                 <div className="flex items-center justify-center">
-                                    Local code
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                        />
-                                    </svg>
+                                    Filter Code
                                 </div>
                             </th>
                             <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                                 <div className="flex items-center justify-center">
                                     Type
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                        />
-                                    </svg>
                                 </div>
                             </th>
                             <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                                 <div className="flex items-center justify-center">
                                     Action
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                                        />
-                                    </svg>
                                 </div>
                             </th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {/* <tr className="bg-gray-50 text-center">
-                            <td className="p-2 border-r"></td>
-                            <td className="p-2 border-r">
-                                <input type="text" className="border p-1" />
-                            </td>
-                            <td className="p-2 border-r">
-                                <input type="text" className="border p-1" />
-                            </td>
-                            <td className="p-2 border-r">
-                                <input type="text" className="border p-1" />
-                            </td>
-                            <td className="p-2 border-r">
-                                <input type="text" className="border p-1" />
-                            </td>
-                            <td className="p-2">
-                                <input type="text" className="border p-1" />
-                            </td>
-                        </tr> */}
                         {filters.length <= 0 ? (
                             <tr>
                                 <td colSpan={6}>
@@ -159,6 +72,7 @@ const Filters = () => {
                                         className="h-auto w-full p-24 flex justify-center"
                                     >
                                         <div
+                                            className="items-center flex "
                                             data-te-loading-management-init
                                             data-te-parent-selector="#loading-basic-example"
                                         >
@@ -167,7 +81,10 @@ const Filters = () => {
                                                 className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
                                                 role="status"
                                             ></div>
-                                            <span data-te-loading-text-ref>
+                                            <span
+                                                data-te-loading-text-ref
+                                                className="ms-4"
+                                            >
                                                 Loading...
                                             </span>
                                         </div>
@@ -196,13 +113,13 @@ const Filters = () => {
                                         <td className="p-2 border-r uppercase">
                                             {filter.type}
                                         </td>
-                                        <td>
-                                            <a
-                                                href="#"
+                                        <td className="min-w-fit h-fit">
+                                            <Link
+                                                to={`/filter/${filter.id}`}
                                                 className="bg-yellow-400 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
                                             >
                                                 View
-                                            </a>
+                                            </Link>
                                             <button
                                                 type="button"
                                                 // href="#"
@@ -213,12 +130,12 @@ const Filters = () => {
                                             >
                                                 Edit
                                             </button>
-                                            <a
+                                            <Link
                                                 href="#"
                                                 className="bg-red-500 p-2 font-bold text-white hover:shadow-lg text-xs mx-0.5 rounded"
                                             >
                                                 Remove
-                                            </a>
+                                            </Link>
                                         </td>
                                     </tr>
                                 );
@@ -227,10 +144,6 @@ const Filters = () => {
                     </tbody>
                 </table>
             </div>
-            <hr />
-            <Update filter={updateFl} />
-
-            <hr />
         </div>
     );
 };

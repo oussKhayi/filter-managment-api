@@ -33,7 +33,7 @@ const Filter = () => {
                 <div className="bg-gray-100 m-0 pt-2 min-h-screen">
                     <div className="flex flex-col md:flex-row mt-4 animate-pulse w-4/5 mx-auto">
                         {/* Loading placeholder for the left column */}
-                        <div className="md:flex-1 px-4">
+                        <div className="md:flex-1 px-4 mb-3">
                             <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 bg-gray-300 dark:bg-gray-700 p-4 rounded-lg relative">
                                 <CiImageOn className="text-9xl text-gray-200 absolute top-1/4 start-1/3" />
                             </div>
@@ -70,7 +70,7 @@ const Filter = () => {
                                 Sorry, we couldn't find that Filter.
                             </p>
                             <Link
-                                to="search"
+                                to="/search"
                                 className="px-8 py-4 text-xl font-semibold rounded bg-purple-600 text-gray-50 hover:text-gray-200"
                             >
                                 Back to searching page
@@ -82,17 +82,18 @@ const Filter = () => {
                 <div className="bg-gray-100 container mx-auto dark:bg-gray-800 py-8">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row -mx-4">
-                            <div className="md:flex-1 px-4">
+                            <div className="md:flex-1 px-4 w-full sm:w-auto lg:w-full md:w-auto">
                                 {/*  */}
 
-                                <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 p-4">
-                                    <Carousel
-                                        slide={true}
-                                        className="min-h-fit"
-                                    >
+                                {/* <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 p-4"> */}
+                                <div className="h-80">
+                                    <Carousel slide={true} className="">
                                         {filter.images.map((image, i) => {
                                             return (
-                                                <div className="py-2 bg-white flex justify-center h-5/6">
+                                                <div
+                                                    className="py-2 bg-white flex justify-center h-5/6"
+                                                    key={i}
+                                                >
                                                     <img
                                                         key={i}
                                                         src={image}
@@ -135,7 +136,7 @@ const Filter = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="md:flex-1 px-4">
+                            <div className="md:flex-1 px-4 w-full sm:w-auto lg:w-full md:w-auto">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
                                     {filter.local_code}
                                 </h2>
@@ -193,7 +194,12 @@ const Filter = () => {
                                                         <div
                                                             key={i}
                                                             className="mb-2 text-gray-500 dark:text-gray-400 flex"
-                                                        ><p className="me-1 font-semibold">{i+1}</p>{` : ${ car.brand} ${car.model} - ${car.year}`}</div>
+                                                        >
+                                                            <p className="me-1 font-semibold">
+                                                                {i + 1}
+                                                            </p>
+                                                            {` : ${car.brand} ${car.model} - ${car.year}`}
+                                                        </div>
                                                     )
                                                 )}
                                             </Accordion.Content>

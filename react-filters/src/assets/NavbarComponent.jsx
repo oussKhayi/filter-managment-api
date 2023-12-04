@@ -9,7 +9,7 @@ import { FiHome, FiSettings, FiShare, FiUser,FiSearch  } from "react-icons/fi";
 
 const NavbarComponent = () => {
     return (
-        <nav className=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20 shadow-sm">
+        <nav className=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20 shadow-sm shad border-b">
             {/* <nav className="bg-white w-full sm:w-full md:w-1/2 ..."> */}
             {/* logo */}
             <div className="inline-flex">
@@ -153,7 +153,7 @@ const NavbarComponent = () => {
                 </Dropdown.Item>
                 <Dropdown.Item>
                     <Link
-                        to={"#"}
+                        to={"auth-login"}
                         className="flex items-center w-full justify-between"
                     >
                         Profile <FiUser />

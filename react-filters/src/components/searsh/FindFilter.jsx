@@ -27,6 +27,9 @@ const FindFilter = () => {
                                 (car) => `${car.brand} ${car.model} ${car.year}`
                             )
                             .join(" "),
+                        other_company_codes: item.other_company_codes
+                            .map((occ) => `${occ.name} ${occ.code}`)
+                            .join(" "),
                     }));
                     setFilters([...newArray]);
                     setMappingFilters([...newArray]);
@@ -45,7 +48,7 @@ const FindFilter = () => {
     const fuseOptions = {
         keys: [searchOption],
         includeScore: true,
-        threshold: 0.5,
+        threshold: 0.3,
     };
 
     // Move the creation of Fuse outside useEffect
@@ -75,8 +78,8 @@ const FindFilter = () => {
             <div>
                 <div className="flex justify-center">
                     <div className="relative overflow-x-auto sm:rounded-lg w-11/12 border">
-                        <div className="max-w-mds    mx-auto bg-white rounded-md shadow-md">
-                            <div className="flex items-center mb-4">
+                        <div className="max-w-mds mx-auto bg-white rounded-md shadow-md">
+                            <div className="items-center mb-4">
                                 {/* Text Input */}
 
                                 <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900 p-2">
@@ -141,6 +144,12 @@ const FindFilter = () => {
                                         value="global_code"
                                     >
                                         EAN code
+                                    </option>
+                                    <option
+                                        className="capitalize"
+                                        value="other_company_codes"
+                                    >
+                                        Strange code
                                     </option>
                                 </select>
 
