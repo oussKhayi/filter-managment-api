@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Accordion, Carousel } from "flowbite-react";
 import { CiImageOn } from "react-icons/ci";
+import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
 
 const Filter = () => {
     const API = "http://localhost:8000/api";
@@ -79,15 +80,24 @@ const Filter = () => {
                     </div>
                 </section>
             ) : (
-                <div className="bg-gray-100 container mx-auto dark:bg-gray-800 py-8">
+                <div className="bg-gray-3o00 container mx-auto py-8 border border-cyan-500 rounded-lg mt-3">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row -mx-4">
                             <div className="md:flex-1 px-4 w-full sm:w-auto lg:w-full md:w-auto">
                                 {/*  */}
 
                                 {/* <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 p-4"> */}
-                                <div className="h-80">
-                                    <Carousel slide={true} className="">
+                                <div className="h-80 border rounded bg-white">
+                                    <Carousel
+                                        rightControl={
+                                            <FiArrowRightCircle className="text-2xl text-gray-400" />
+                                        }
+                                        leftControl={
+                                            <FiArrowLeftCircle className="text-2xl text-gray-400" />
+                                        }
+                                        slide={true}
+                                        // indicators={true}
+                                    >
                                         {filter.images.map((image, i) => {
                                             return (
                                                 <div
@@ -117,7 +127,7 @@ const Filter = () => {
                                         alt="Product Image"
                                     />
                                 </div> */}
-                                <div className="flex -mx-2 mb-4">
+                                {/* <div className="flex -mx-2 mb-4">
                                     <div className="w-1/2 px-2">
                                         <Link
                                             to={"/"}
@@ -134,7 +144,7 @@ const Filter = () => {
                                             Find my Filter
                                         </Link>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="md:flex-1 px-4 w-full sm:w-auto lg:w-full md:w-auto">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">

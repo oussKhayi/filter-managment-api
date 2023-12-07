@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "flowbite-react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
-import { PiSignOutBold } from "react-icons/pi";
-import { FiHome, FiSettings, FiShare, FiUser,FiSearch  } from "react-icons/fi";
+import {
+    FiHome,
+    FiSettings,
+    FiShare,
+    FiUser,
+    FiSearch,
+    FiDownload,
+} from "react-icons/fi";
+import Cookies from "js-cookie";
 
 const NavbarComponent = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        Cookies.remove("token");
+        navigate("/auth-login");
+    };
+    const [isToken, setIsToken] = useState(false);
+    useEffect(() => {
+        const token = Cookies.get("token");
+        setIsToken(!!token);
+        !!isToken && navigate("/");
+    }, []);
+
     return (
         <nav className=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20 shadow-sm shad border-b">
             {/* <nav className="bg-white w-full sm:w-full md:w-1/2 ..."> */}
@@ -148,49 +167,57 @@ const NavbarComponent = () => {
                         to={"/"}
                         className="flex items-center w-full justify-between"
                     >
-                        Home <FiHome />
+                        Home <FiHome className="ms-1" />
                     </Link>
                 </Dropdown.Item>
-                <Dropdown.Item>
-                    <Link
-                        to={"auth-login"}
-                        className="flex items-center w-full justify-between"
-                    >
-                        Profile <FiUser />
-                    </Link>
-                </Dropdown.Item>
+
                 <Dropdown.Item className="sm:hidden">
                     <Link
                         to={"search"}
                         className="flex items-center w-full justify-between"
                     >
-                        Search <FiSearch  />
+                        Search <FiSearch className="ms-2" />
                     </Link>
                 </Dropdown.Item>
-                <Dropdown.Item>
-                    <Link
-                        to={"manage"}
-                        className="flex items-center w-full justify-between"
-                    >
-                        Manage <FiSettings />
-                    </Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                    <Link
-                        to={"insert"}
-                        className="flex items-center w-full justify-between"
-                    >
-                        New Filter <HiPencilAlt className="ms-1" />
-                    </Link>
-                </Dropdown.Item>
+                {isToken ? (
+                    <>
+                        <Dropdown.Item>
+                            <Link
+                                to={"manage"}
+                                className="flex items-center w-full justify-between"
+                            >
+                                Manage <FiSettings className="ms-2" />
+                            </Link>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                            <Link
+                                to={"insert"}
+                                className="flex items-center w-full justify-between"
+                            >
+                                New Filter <HiPencilAlt className="ms-1" />
+                            </Link>
+                        </Dropdown.Item>
+                    </>
+                ) : (
+                    ""
+                )}
 
                 <Dropdown.Item>
-                    <Link
-                        to={"/"}
-                        className="flex items-center w-full justify-between"
-                    >
-                        Sign out <FiShare className="rotate-90" />
-                    </Link>
+                    {!isToken ? (
+                        <Link
+                            to={"auth-login"}
+                            className="flex items-center w-full justify-between"
+                        >
+                            Log in <FiDownload className="rotate-90" />
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center w-full justify-between"
+                        >
+                            Sign out <FiShare className="rotate-90" />
+                        </button>
+                    )}
                 </Dropdown.Item>
             </Dropdown>
 

@@ -237,7 +237,7 @@ const InsertFilter = () => {
     };
 
     return (
-        <div className="bg-gray-100 container mx-auto p-4">
+        <div className=" container mx-auto p-4">
             {/* <h1 className="text-gray-700 bg-yellow-300 rounded-lg text-3xl font-bold p-2 text-center uppercase">
                 Insert a Filters
             </h1> */}
@@ -423,7 +423,7 @@ const InsertFilter = () => {
                     </div>
                     <hr />
                     <br />
-                    <div className="p-2 bg-gray-100">
+                    <div className="p-2 ">
                         <h1 className="text-gray-700 font-bold text-xl uppercase p-2 ps-0 flex items-center">
                             <FiChevronsRight />
                             supported Cars informations :
@@ -766,8 +766,9 @@ const InsertFilter = () => {
                     )}
                     <div className="flex justify-center">
                         <button
+                            id="btn"
                             type="submit"
-                            className="bg-green-500 text-white max-w-full xs:w-full w-1/3 mx-3 p-3 rounded font-bold flex items-center justify-center text-xl"
+                            className="bg-green-500 text-white max-w-full xs:w-full w-1/3 mx-3 p-3 text-xs rounded font-bold flex items-center justify-center md:text-lg"
                         >
                             submit <FiSave className="ms-2 font-bold" />
                         </button>
