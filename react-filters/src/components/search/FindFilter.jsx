@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Fuse from "fuse.js";
-import { useNavigate } from "react-router-dom"; // Import useHistory
+import { Link } from "react-router-dom"; // Import useHistory
 
 const FindFilter = () => {
     const API = "http://localhost:8000/api";
@@ -11,7 +11,6 @@ const FindFilter = () => {
     const [searchOption, setSearchOption] = useState("local_code");
     const [filteredItems, setFilteredItems] = useState(null);
     const [mappingFilters, setMappingFilters] = useState([]);
-    const navigate = useNavigate(); // useNavigate hook for navigation
 
     useEffect(() => {
         try {
@@ -120,7 +119,10 @@ const FindFilter = () => {
 
                                 {/* Select Input */}
                                 <div className="p-2 sm:w-1/2 w-full flex justify-between sm:border-s border-gray-300">
-                                    <p className="w-[30%] text-gray-700 p-0 place-items-baseline px-2 h-fit my-auto font-semibold"> Search by </p>
+                                    <p className="w-[30%] text-gray-700 p-0 place-items-baseline px-2 h-fit my-auto font-semibold">
+                                        {" "}
+                                        Search by{" "}
+                                    </p>
                                     <select
                                         className="block pt-2 ps-10 text-sm text-gray-800 border border-gray-300 rounded-lg w-[70%] bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                         value={searchOption}
@@ -197,9 +199,6 @@ const FindFilter = () => {
                                         <tr
                                             key={i}
                                             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer"
-                                            onClick={() =>
-                                                navigate(`/filter/${filter.id}`)
-                                            } // Use navigate for redirection
                                         >
                                             <th
                                                 scope="row"
@@ -227,15 +226,15 @@ const FindFilter = () => {
                                             </td>
                                             <td className="text-center  border-s">
                                                 {/* Modal toggle */}
-                                                <a
-                                                    href="#"
+                                                <Link
+                                                    to={`/filter/${filter.id}`}
                                                     type="button"
                                                     data-modal-target="editUserModal"
                                                     data-modal-show="editUserModal"
                                                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                                 >
                                                     Show Filter
-                                                </a>
+                                                </Link>
                                             </td>
                                         </tr>
                                     );

@@ -9,13 +9,11 @@ import PageNotFound from "./assets/PageNotFound";
 import HomePage from "./components/HomePage";
 import ImageUploader from "./ImageUploader";
 import FindFilter from "./components/search/FindFilter";
-
-import ProductSearch from "./components/search/ProductSearch";
 import Filter from "./components/Filter";
 import "./Style.css";
 
 import LogIn from "./Admin/LogIn";
-import AuthRoute from "./Admin/AuthRoute";
+
 import Redirect from "./Admin/Redirect";
 
 const App = () => {
@@ -23,6 +21,7 @@ const App = () => {
     useEffect(() => {
         const token = Cookies.get("token");
         setIsToken(!!token);
+        
         // console.log(!!token);
     }, []);
 

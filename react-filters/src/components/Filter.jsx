@@ -32,7 +32,7 @@ const Filter = () => {
         <>
             {isLoading ? (
                 <div className="bg-gray-100 m-0 pt-2 min-h-screen">
-                    <div className="flex flex-col md:flex-row mt-4 animate-pulse w-4/5 mx-auto">
+                    <div className="flex flex-col md:flex-row mt-4 animate-pulse w-4/5 mx-auto border border-gray-300 rounded-lg  pt-4">
                         {/* Loading placeholder for the left column */}
                         <div className="md:flex-1 px-4 mb-3">
                             <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 bg-gray-300 dark:bg-gray-700 p-4 rounded-lg relative">
@@ -80,7 +80,7 @@ const Filter = () => {
                     </div>
                 </section>
             ) : (
-                <div className="bg-gray-3o00 container mx-auto py-8 border border-cyan-500 rounded-lg mt-3">
+                <div className="container mx-auto lg:py-8 border border-cyan-500 rounded-lg mt-3">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row -mx-4">
                             <div className="md:flex-1 px-4 w-full sm:w-auto lg:w-full md:w-auto">
@@ -101,7 +101,7 @@ const Filter = () => {
                                         {filter.images.map((image, i) => {
                                             return (
                                                 <div
-                                                    className="py-2 bg-white flex justify-center h-5/6"
+                                                    className="py-2 bg-white flex justify-center h-full"
                                                     key={i}
                                                 >
                                                     <img

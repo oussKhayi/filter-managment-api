@@ -20,6 +20,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $password ="12345678";
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

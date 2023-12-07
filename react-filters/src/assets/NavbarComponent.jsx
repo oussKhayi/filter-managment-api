@@ -3,29 +3,29 @@ import { Dropdown } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
+
 import {
     FiHome,
     FiSettings,
     FiShare,
-    FiUser,
     FiSearch,
     FiDownload,
 } from "react-icons/fi";
-import Cookies from "js-cookie";
+import { useAuth } from "../Admin/AuthContext";
 
 const NavbarComponent = () => {
+    const { isToken, removeToken } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        Cookies.remove("token");
+        removeToken();
         navigate("/auth-login");
     };
-    const [isToken, setIsToken] = useState(false);
-    useEffect(() => {
-        const token = Cookies.get("token");
-        setIsToken(!!token);
-        !!isToken && navigate("/");
-    }, []);
+    // const [isToken, setIsToken] = useState(false);
+    // useEffect(() => {
+    //     const token = Cookies.get("token");
+    //     setIsToken(!!token);
+    // }, []);
 
     return (
         <nav className=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20 shadow-sm shad border-b">

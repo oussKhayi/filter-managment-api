@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-
 import { FaFilter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
+
 const LogIn = () => {
+    const { setToken } = useAuth();
     const navigate = useNavigate();
     const API = "http://localhost:8000/api";
     const [email, setEmail] = useState("");
@@ -41,8 +43,9 @@ const LogIn = () => {
                 )
                 .then((res) => {
                     const token = res.data.token; // Extract token from response data
-                    Cookies.set("token", token, { expires: 1 }); // Set cookie with expiration "1 Day in this case"
-                    axios.defaults.withCredentials = true; // Enable cookie sending for all requests
+                    setToken(token);
+                    // Cookies.set("token", token, { expires: 1 }); // Set cookie with expiration "1 Day in this case"
+                    // axios.defaults.withCredentials = true; // Enable cookie sending for all requests
                     navigate(-1);
                     // history.goBack();
                 })

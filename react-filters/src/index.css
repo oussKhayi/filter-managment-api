@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+*::selection {
+    background-color: #30b0ff;
+    color: rgb(255, 255, 255);
+}
+
 @layer base {
     body {
         /* @apply flex items-center justify-center w-screen h-screen bg-gray-100; */
@@ -13,4 +18,3 @@
         @apply flex animate-infinite-scroll items-center justify-center md:justify-start [&_img]:max-w-none [&_li]:mx-4;
     }
 }
-
