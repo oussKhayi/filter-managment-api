@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { Accordion, Carousel } from "flowbite-react";
 import { CiImageOn } from "react-icons/ci";
 import { FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
+import { instance } from "../api/axiosConfiguration";
 
 const Filter = () => {
-    const API = "http://localhost:8000/api";
     const { productId } = useParams();
     const [filter, setFilter] = useState({});
     const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +14,7 @@ const Filter = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API}/filter/${productId}`);
+                const response = await instance.get(`/filter/${productId}`);
                 setFilter(response.data.filter);
             } catch (error) {
                 console.error("Axios error:\n", error);
@@ -26,7 +25,7 @@ const Filter = () => {
         };
 
         fetchData();
-    }, [API, productId]);
+    }, [productId]);
 
     return (
         <>

@@ -1,25 +1,28 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import React from "react";
 import { FiEdit, FiEye, FiTrash2 } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import { Tooltip } from "flowbite-react";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { instance } from "../api/axiosConfiguration";
 
 const Filters = () => {
-    const API = "http://localhost:8000/api";
     const [filters, setFilters] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
-        try {
-            axios
-                .get(`${API}/filters`)
-                .then((req, res) => {
-                    console.log(req.data.filters);
-                    setFilters(req.data.filters);
-                })
-                .catch((error) => console.log("Axios error : \n", error));
-        } catch (error) {
-            console.error(error);
+        if (!Cookies.get("token")) {
+            navigate("/auth-login");
+        } else {
+            try {
+                instance
+                    .get("/filters")
+                    .then((req, res) => {
+                        console.log(req.data.filters);
+                        setFilters(req.data.filters);
+                    })
+                    .catch((error) => console.log("Axios error : \n", error));
+            } catch (error) {
+                console.error(error);
+            }
         }
     }, []);
     return (

@@ -1,17 +1,12 @@
 import React from "react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiPlusCircle, BiTrash } from "react-icons/bi";
-import {
-    FiCheck,
-    FiChevronRight,
-    FiChevronsRight,
-    FiSave,
-} from "react-icons/fi";
+import { FiChevronsRight, FiSave } from "react-icons/fi";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { instance } from "../api/axiosConfiguration";
 
 const InsertFilter = () => {
-    const API = "http://localhost:8000/api";
-
     const [localCode, setLocalCode] = useState("");
     const [globalCode, setGlobalCode] = useState("");
     const [type, setType] = useState("");
@@ -38,24 +33,13 @@ const InsertFilter = () => {
     const [otherCompanyCodes, setOtherCompanyCodes] = useState([]);
     const [newCompanyName, setNewCompanyName] = useState("");
     const [newCompanyCode, setNewCompanyCode] = useState("");
+
+    const navigate = useNavigate("");
     useEffect(() => {
-        setDimensions([]);
+        if (!Cookies.get("token")) navigate("/auth-login");
     }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const myData = {
-        //     local_code: "New12345",
-        //     global_code: "GLBD1011",
-        //     dimension_form: "Square",
-        //     dimensions: { length: 7, width: 7 },
-        //     images: ["image12.jpg", "image13.jpg"],
-        //     other_company_codes: [{ name: "companyC", code: "OC7890" }],
-        //     supported_cars: [
-        //         { brand: "ford", model: "mustang", year: "2023" },
-        //         { brand: "Mercedes", model: "AMG", year: "2019" },
-        //     ],
-        //     type: "cabin filter",
-        // };
         const newData = {
             local_code: localCode,
             global_code: globalCode,
@@ -71,8 +55,8 @@ const InsertFilter = () => {
 
         try {
             // Make the Axios PUT request
-            const response = await axios
-                .post(`${API}/insert`, newData)
+            const response = await instance
+                .post("/insert", newData)
                 .then((req, res) => res.data)
                 .catch((err) => err);
             // Handle the response as needed (e.g., show a success message)
@@ -187,26 +171,6 @@ const InsertFilter = () => {
             return prev.filter((cmp) => cmp.name !== name);
         });
     };
-
-    // Handle change images
-    // const handleImageChange = (e) => {
-    //     const file = e.target.files[0];
-    //     if (file) {
-    //         const reader = new FileReader();
-    //         reader.onloadend = () => {
-    //             // The result property contains the base64-encoded string
-    //             var base64String = reader.result;
-
-    //         };
-
-    //         // Read the file as a data URL
-    //         reader.readAsDataURL(file);
-    //     }
-    //     console.log(base64Image);
-    // };
-    // useEffect(() => {
-    //     if (base64Image) setImages((prev) => [...prev, base64Image]);
-    // }, [base64Image]);
 
     // Handle change images
     const handleImageChange = async (e) => {

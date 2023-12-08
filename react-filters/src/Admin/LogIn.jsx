@@ -1,60 +1,46 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { FaFilter } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { instance } from "../api/axiosConfiguration";
+import { Alert } from "flowbite-react";
+import { HiInformationCircle } from "react-icons/hi";
+import { BiLoader } from "react-icons/bi";
 
 const LogIn = () => {
     const { setToken } = useAuth();
     const navigate = useNavigate();
-    const API = "http://localhost:8000/api";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loginError, setLoginError] = useState("");
+    const [loginError, setLoginError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const token = Cookies.get("token");
-
-        if (!token) {
-            // Redirect to the login page if the user is not authenticated
-            console.log("no Token !");
-        } else {
-            navigate("/");
-        }
-
-        // User is authenticated, allow access to the protected route
+        if (Cookies.get("token")) navigate("/#");
     }, []);
     const handleLogIn = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         try {
-            setIsLoading(true);
-            await axios
-                .post(
-                    `${API}/auth/login`,
-                    { email, password },
-                    {
-                        withCredentials: true,
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                )
-                .then((res) => {
-                    const token = res.data.token; // Extract token from response data
-                    setToken(token);
-                    // Cookies.set("token", token, { expires: 1 }); // Set cookie with expiration "1 Day in this case"
-                    // axios.defaults.withCredentials = true; // Enable cookie sending for all requests
-                    navigate(-1);
-                    // history.goBack();
-                })
-                .catch((err) => console.log(err.response.data.message))
-                .finally(() => {
-                    setIsLoading(false);
-                });
+            const response = await instance.post("/auth/login", {
+                email,
+                password,
+            });
+
+            const { token } = response.data;
+            setToken(token);
+            navigate("/#");
         } catch (error) {
-            console.log("Error after axios : ", error);
+            // if (error.response) {
+            //     console.error(error.response.data.message);
+            // } else {
+            console.error("Error during login:", error);
+            setLoginError(error.response.data.message);
+            // }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -83,6 +69,18 @@ const LogIn = () => {
                         </div>
 
                         <div className="mt-8">
+                            {loginError !== null && (
+                                <Alert
+                                    className="my-2"
+                                    color="failure"
+                                    icon={HiInformationCircle}
+                                >
+                                    <span className="font-medium">
+                                        {loginError}
+                                    </span>
+                                </Alert>
+                            )}
+
                             <form onSubmit={(e) => handleLogIn(e)}>
                                 <div>
                                     <label
@@ -135,8 +133,18 @@ const LogIn = () => {
                                 </div>
 
                                 <div className="mt-6">
-                                    <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-400 focus:outline-none focus:bg-indigo-400 focus:ring focus:ring-indigo-300 focus:ring-opacity-50">
-                                        {isLoading ? "Loading..." : "Sign in"}
+                                    <button
+                                        className="flex justify-center w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-400 focus:outline-none focus:bg-indigo-400 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? (
+                                            <BiLoader
+                                                className="animate-spin"
+                                                size={24}
+                                            />
+                                        ) : (
+                                            "Sign in"
+                                        )}
                                     </button>
                                 </div>
 

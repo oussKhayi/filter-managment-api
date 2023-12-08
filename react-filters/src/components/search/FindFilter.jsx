@@ -1,10 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Fuse from "fuse.js";
 import { Link } from "react-router-dom"; // Import useHistory
+import { instance } from "../../api/axiosConfiguration";
 
 const FindFilter = () => {
-    const API = "http://localhost:8000/api";
     const [filters, setFilters] = useState([]);
     //
     const [searchTerm, setSearchTerm] = useState("");
@@ -14,10 +13,9 @@ const FindFilter = () => {
 
     useEffect(() => {
         try {
-            axios
-                .get(`${API}/filters`)
+            instance
+                .get("/filters")
                 .then((req, res) => {
-                    console.log(req.data.filters);
                     const newArray = req.data.filters.map((item) => ({
                         ...item,
                         supported_cars: item.supported_cars
@@ -194,7 +192,7 @@ const FindFilter = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {mappingFilters.map((filter, i) => {
+                                {mappingFilters.slice(0, 5).map((filter, i) => {
                                     return (
                                         <tr
                                             key={i}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Filters from "./Admin/Filters";
 import InsertFilter from "./Admin/InsertFilter";
 import FooterComponent from "./assets/FooterComponent";
@@ -15,24 +14,23 @@ import "./Style.css";
 import LogIn from "./Admin/LogIn";
 
 import Redirect from "./Admin/Redirect";
+import { useAuth } from "./Admin/AuthContext";
+import Update from "./Update";
 
 const App = () => {
-    const [isToken, setIsToken] = useState(false);
-    useEffect(() => {
-        const token = Cookies.get("token");
-        setIsToken(!!token);
-        
-        // console.log(!!token);
-    }, []);
-
+    const { isToken, removeToken } = useAuth();
     const returnRoutes = () => {
         const routes = [
-            { path: "/", element: <HomePage />, isPrivate: false },
             { path: "*", element: <PageNotFound />, isPrivate: false },
             { path: "auth-login", element: <LogIn />, isPrivate: false },
             { path: "insert", element: <InsertFilter />, isPrivate: true },
             { path: "search", element: <FindFilter />, isPrivate: false },
             { path: "manage", element: <Filters />, isPrivate: true },
+            {
+                path: "update/:productId",
+                element: <Update />,
+                isPrivate: false,
+            },
             {
                 path: "filter/:productId",
                 element: <Filter />,
@@ -42,6 +40,7 @@ const App = () => {
 
         return (
             <Routes>
+                <Route path="/" index element={<HomePage />} />
                 {routes.map((r, i) => {
                     if (isToken && r.isPrivate) {
                         return (
